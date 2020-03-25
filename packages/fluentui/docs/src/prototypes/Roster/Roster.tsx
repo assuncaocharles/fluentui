@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { Tree, TreeItemProps, Flex } from '@fluentui/react-northstar';
-import { RosterItemData, RosterSectionType } from './interface/roster.interface';
+import { Tree, Flex } from '@fluentui/react-northstar';
 import { RosterItem } from './RosterItem';
-import { withTreeItemMemo } from './helpers/withTreeItemMemo';
 import { ActionsContext } from './actionsContext';
 import { initialRosterData } from './data/initialRosterData';
-import { lexCompareData } from './helpers/utils';
 import { RosterSectionTitle } from './RosterTitle';
 import { useRosterActions } from './hooks/useRosterActions';
-import { rosterStyles, rosterTreeStyles, rosterSectionStyles } from './styles/styles';
+import { rosterStyles, rosterTreeStyles } from './styles/styles';
 
 export const Roster: React.FunctionComponent<{}> = () => {
   return (
@@ -18,45 +15,18 @@ export const Roster: React.FunctionComponent<{}> = () => {
   );
 };
 
-const RosterContent: React.FunctionComponent<{}> = () => {
-  const [rosterData, setRosterData] = React.useState(initialRosterData);
-
-  const { presenters: _presenters, attendees: _attendees, suggestions: _suggestions } = rosterData;
-
-  const presenters = getSection('presenters', Array.from(_presenters.values()).sort(lexCompareData));
-  const attendees = getSection('attendees', Array.from(_attendees.values()).sort(lexCompareData));
-  const suggestions = getSection('suggestions', Array.from(_suggestions.values()).sort(lexCompareData));
-
-  const actions = useRosterActions(rosterData, setRosterData);
-
-  return (
-    <ActionsContext.Provider value={actions}>
-      <Tree
-        as="div"
-        items={[presenters, attendees, suggestions]}
-        defaultActiveItemIds={['presenters']}
-        styles={rosterTreeStyles}
-      />
-    </ActionsContext.Provider>
-  );
-};
-
-const customItemPropsArray: (keyof React.ComponentProps<typeof RosterItem>)[] = [
-  'userId',
-  'visuals',
-  'displayName',
-  'type',
-  'isMuted',
-];
-const TreeItemMemo = withTreeItemMemo(RosterItem, customItemPropsArray);
-
-const getItem: (type: RosterSectionType, data: RosterItemData) => TreeItemProps = (type, data) => {
-  const { userId, displayName, visuals, isMuted } = data;
-  return {
-    id: userId,
-    children: (_, props) => (
-      <TreeItemMemo
-        {...props}
+const components = {
+  header(Component, { open, content, ...restProps }) {
+    return (
+      <Component {...restProps}>
+        <RosterSectionTitle open={open} type={content} />
+      </Component>
+    );
+  },
+  item(_, { type, userId, displayName, visuals, isMuted }) {
+    return (
+      <RosterItem
+        id={userId}
         key={userId}
         userId={userId}
         displayName={displayName}
@@ -64,15 +34,21 @@ const getItem: (type: RosterSectionType, data: RosterItemData) => TreeItemProps 
         type={type}
         isMuted={isMuted}
       />
-    ),
-  };
+    );
+  },
 };
 
-const getSection: (type: RosterSectionType, data: RosterItemData[]) => TreeItemProps = (type, data) => {
-  return {
-    id: type,
-    title: <RosterSectionTitle type={type} />,
-    items: data.map(d => getItem(type, d)),
-    styles: rosterSectionStyles,
-  };
+const titleRenderer = (Component, props) => {
+  const componentType = props.hasSubtree ? 'header' : 'item';
+  return components[componentType](Component, props);
+};
+
+const RosterContent: React.FunctionComponent<{}> = () => {
+  const [rosterData, setRosterData] = React.useState(initialRosterData);
+  const actions = useRosterActions(rosterData, setRosterData);
+  return (
+    <ActionsContext.Provider value={actions}>
+      <Tree as="div" items={rosterData} styles={rosterTreeStyles} renderItemTitle={titleRenderer} />
+    </ActionsContext.Provider>
+  );
 };

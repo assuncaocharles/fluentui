@@ -39,6 +39,7 @@ export interface RosterItemData {
 export type RosterSectionType = 'presenters' | 'attendees' | 'suggestions';
 
 export interface IRosterItemProps {
+  id: string;
   userId: string;
   displayName: string;
   visuals: RosterVisuals;
