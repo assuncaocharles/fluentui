@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IActionsContext } from '../actionsContext';
+import { IActionsContext } from '../interface/roster.interface';
 
 export const useRosterActions = (rosterData, setRosterData: React.Dispatch<React.SetStateAction<any>>) => {
   return React.useMemo<IActionsContext>(

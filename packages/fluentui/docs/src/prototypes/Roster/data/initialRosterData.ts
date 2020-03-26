@@ -86,23 +86,23 @@ export const initialRosterData: TreeItemProps[] = [
     title: 'Attendees',
     items: [
       {
-        id: '1',
-        key: '1',
+        id: '12',
+        key: '12',
         title: { type: 'attendees', userId: '12', displayName: 'Joe Hill', visuals: 'joe.jpg', isMuted: false },
       },
       {
-        id: '2',
-        key: '2',
+        id: '23',
+        key: '23',
         title: { type: 'attendees', userId: '13', displayName: 'Laura Marling', visuals: 'laura.jpg', isMuted: false },
       },
       {
-        id: '3',
-        key: '3',
+        id: '34',
+        key: '34',
         title: { type: 'attendees', userId: '14', displayName: 'Tom Bombadil', visuals: 'tom.jpg', isMuted: false },
       },
       {
-        id: '4',
-        key: '4',
+        id: '45',
+        key: '45',
         title: {
           type: 'attendees',
           userId: '15',
@@ -112,8 +112,8 @@ export const initialRosterData: TreeItemProps[] = [
         },
       },
       {
-        id: '5',
-        key: '5',
+        id: '56',
+        key: '56',
         title: { type: 'attendees', userId: '16', displayName: 'Zoe Deschanel', visuals: 'zoe.jpg', isMuted: false },
       },
     ],
@@ -123,7 +123,7 @@ export const initialRosterData: TreeItemProps[] = [
     title: 'Suggestions',
     items: [
       {
-        id: `tree-perf-60-item-`,
+        id: `tree-perf-60-item-a`,
         key: `key`,
         title: {
           type: 'suggestions',

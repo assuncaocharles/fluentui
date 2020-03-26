@@ -11,7 +11,7 @@ export const RosterSectionTitle: React.FunctionComponent<{ type: RosterSectionTy
   return (
     <Flex onClick={() => setToggled(toggled => !toggled)}>
       <Icon name={isToggled ? 'icon-arrow-down' : 'icon-arrow-end'} styles={rosterTitleIconStyles} />
-      {(type as string).charAt(0).toUpperCase() + (type as string).slice(1)}
+      {type}
     </Flex>
   );
 };

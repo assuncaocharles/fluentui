@@ -48,5 +48,10 @@ export interface IRosterItemProps {
 }
 
 export interface IRosterItemInternalProps extends IRosterItemProps {
-  action: React.ReactNode;
+  actions: IActionsContext;
+}
+
+export interface IActionsContext {
+  togglePromote: (id: string, type: string) => void;
+  toggleMute: (id: string, type: string) => void;
 }

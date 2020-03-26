@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Tree, Flex } from '@fluentui/react-northstar';
-import { RosterItem } from './RosterItem';
-import { ActionsContext } from './actionsContext';
+import { RosterItemInternal } from './RosterItem';
+import { IActionsContext } from './interface/roster.interface';
 import { initialRosterData } from './data/initialRosterData';
 import { RosterSectionTitle } from './RosterTitle';
 import { useRosterActions } from './hooks/useRosterActions';
@@ -23,32 +23,29 @@ const components = {
       </Component>
     );
   },
-  item(_, { type, userId, displayName, visuals, isMuted }) {
+  item(_, { type, userId, displayName, visuals, isMuted, actions }) {
     return (
-      <RosterItem
+      <RosterItemInternal
         id={userId}
         key={userId}
         userId={userId}
         displayName={displayName}
         visuals={visuals}
         type={type}
+        actions={actions}
         isMuted={isMuted}
       />
     );
   },
 };
 
-const titleRenderer = (Component, props) => {
+const titleRenderer = (actions: IActionsContext) => (Component, props) => {
   const componentType = props.hasSubtree ? 'header' : 'item';
-  return components[componentType](Component, props);
+  return components[componentType](Component, { ...props, actions });
 };
 
 const RosterContent: React.FunctionComponent<{}> = () => {
   const [rosterData, setRosterData] = React.useState(initialRosterData);
   const actions = useRosterActions(rosterData, setRosterData);
-  return (
-    <ActionsContext.Provider value={actions}>
-      <Tree as="div" items={rosterData} styles={rosterTreeStyles} renderItemTitle={titleRenderer} />
-    </ActionsContext.Provider>
-  );
+  return <Tree as="div" items={rosterData} styles={rosterTreeStyles} renderItemTitle={titleRenderer(actions)} />;
 };
