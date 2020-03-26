@@ -7,14 +7,6 @@ import { RosterSectionTitle } from './RosterTitle';
 import { useRosterActions } from './hooks/useRosterActions';
 import { rosterStyles, rosterTreeStyles } from './styles/styles';
 
-export const Roster: React.FunctionComponent<{}> = () => {
-  return (
-    <Flex styles={rosterStyles}>
-      <RosterContent />
-    </Flex>
-  );
-};
-
 const components = {
   header(Component, { open, content, ...restProps }) {
     return (
@@ -44,8 +36,12 @@ const titleRenderer = (actions: IActionsContext) => (Component, props) => {
   return components[componentType](Component, { ...props, actions });
 };
 
-const RosterContent: React.FunctionComponent<{}> = () => {
+export const Roster: React.FunctionComponent<{}> = () => {
   const [rosterData, setRosterData] = React.useState(initialRosterData);
   const actions = useRosterActions(rosterData, setRosterData);
-  return <Tree as="div" items={rosterData} styles={rosterTreeStyles} renderItemTitle={titleRenderer(actions)} />;
+  return (
+    <Flex styles={rosterStyles}>
+      <Tree as="div" items={rosterData} styles={rosterTreeStyles} renderItemTitle={titleRenderer(actions)} />
+    </Flex>
+  );
 };
