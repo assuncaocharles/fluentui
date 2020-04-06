@@ -1,10 +1,6 @@
 import * as React from 'react';
-import { List, Checkbox } from '@fluentui/react-northstar';
-// import { RosterAvatar } from './RosterAvatar';
+import { List, Checkbox, Text, Flex, Icon } from '@fluentui/react-northstar';
 import { useJitterState } from './hooks/useJitterState';
-import { RosterUserName } from './RosterUsername';
-import { RosterState } from './RosterState';
-import { RosterMessage } from './RosterMessage';
 import { withRosterActions } from './helpers/withRosterActions';
 import { RosterSectionType, RosterVisuals } from './interface/roster.interface';
 import withCustomComponent from './helpers/withCustomComponent';
@@ -47,9 +43,14 @@ const RosterItemCustom: React.FunctionComponent<IRosterItemInternalProps> = ({
   return (
     <List.Item
       media={<Checkbox aria-label={displayName} checked={selected} />}
-      header={<RosterUserName isActive={isActive} displayName={displayName} />}
-      endMedia={<RosterState action={action} isMuted={isMuted} />}
-      content={<RosterMessage message={message} />}
+      header={<Text weight={isActive ? 'semibold' : 'regular'}>{displayName}</Text>}
+      endMedia={
+        <Flex vAlign="center">
+          <Flex>{isMuted ? <Icon outline name="mic-off" xSpacing="both" /> : null}</Flex>
+          {action}
+        </Flex>
+      }
+      content={<Text content={message} />}
       key={userId}
       truncateHeader
       truncateContent
