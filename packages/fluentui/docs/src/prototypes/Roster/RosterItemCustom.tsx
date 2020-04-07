@@ -42,7 +42,7 @@ const RosterItemCustom: React.FunctionComponent<IRosterItemInternalProps> = ({
 
   return (
     <List.Item
-      media={<Checkbox aria-label={displayName} checked={selected} />}
+      media={<Checkbox data-is-focusable={false} aria-label={displayName} checked={selected} />}
       header={<Text weight={isActive ? 'semibold' : 'regular'}>{displayName}</Text>}
       endMedia={
         <Flex vAlign="center">
@@ -56,6 +56,7 @@ const RosterItemCustom: React.FunctionComponent<IRosterItemInternalProps> = ({
       truncateContent
       selectable
       selected={selected}
+      data-is-focusable={false}
       {...props}
     />
   );

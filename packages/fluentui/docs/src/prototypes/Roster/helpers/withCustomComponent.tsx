@@ -12,6 +12,7 @@ const withCustomComponent = (CustomComponent: React.ComponentType<any>, selectPr
         title={{
           content: <CustomComponent {...customProps} />,
           selectionIndicator: null,
+          as: 'li',
         }}
       />
     );
