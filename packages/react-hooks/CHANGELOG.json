@@ -2,6 +2,34 @@
   "name": "@uifabric/react-hooks",
   "entries": [
     {
+      "date": "Fri, 03 Apr 2020 12:27:13 GMT",
+      "tag": "@uifabric/react-hooks_v7.1.0",
+      "version": "7.1.0",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add useBoolean hook",
+            "author": "elcraig@microsoft.com",
+            "commit": "0c1876284c8d6ce80e9c22fee6a188ef43c27d93"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 25 Mar 2020 12:30:04 GMT",
+      "tag": "@uifabric/react-hooks_v7.0.24",
+      "version": "7.0.24",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Changing references of Fabric to Fluent",
+            "author": "mgodbolt@microsoft.com",
+            "commit": "3ec9a0efa90dc462104e717dc0f9c41e1b4fcd60"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 23 Mar 2020 12:28:29 GMT",
       "tag": "@uifabric/react-hooks_v7.0.23",
       "version": "7.0.23",
