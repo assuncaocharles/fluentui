@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { List, Checkbox, Text, Flex, Icon } from '@fluentui/react-northstar';
+import { List, Checkbox, Text, Flex } from '@fluentui/react-northstar';
 import { useJitterState } from './hooks/useJitterState';
 import { withRosterActions } from './helpers/withRosterActions';
 import { RosterSectionType, RosterVisuals } from './interface/roster.interface';
 import withCustomComponent from './helpers/withCustomComponent';
+import { MicOffIcon } from '@fluentui/react-icons-northstar';
 
 export interface IRosterItemProps {
   userId: string;
@@ -46,7 +47,7 @@ const RosterItemCustom: React.FunctionComponent<IRosterItemInternalProps> = ({
       header={<Text weight={isActive ? 'semibold' : 'regular'}>{displayName}</Text>}
       endMedia={
         <Flex vAlign="center">
-          <Flex>{isMuted ? <Icon outline name="mic-off" xSpacing="both" /> : null}</Flex>
+          <Flex>{isMuted ? <MicOffIcon xSpacing="both" outline /> : null}</Flex>
           {action}
         </Flex>
       }

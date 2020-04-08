@@ -5,7 +5,6 @@ import {
   MenuItemProps,
   MenuShorthandKinds,
   Text,
-  IconProps,
   Popup,
   Menu,
   Button,
@@ -38,7 +37,7 @@ export const withRosterActions: (
           name: isMuted ? 'mic' : 'mic-off',
           outline: true,
           xSpacing: 'after',
-        } as IconProps,
+        },
         onClick: () => toggleMute(userId, type),
       },
       {
@@ -48,7 +47,7 @@ export const withRosterActions: (
           name: 'presenter',
           outline: true,
           xSpacing: 'after',
-        } as IconProps,
+        },
         onClick: () => togglePromote(userId, type),
       },
     );

@@ -1,5 +1,5 @@
 import { colorScheme } from '@fluentui/react-northstar/src/themes/teams/colors';
-import { ComponentSlotStyle, Icon, List } from '@fluentui/react-northstar';
+import { ComponentSlotStyle, List } from '@fluentui/react-northstar';
 
 export const rosterStyles: ComponentSlotStyle = {
   background: colorScheme.default.background,
@@ -44,7 +44,7 @@ export const rosterListItemStyles: ComponentSlotStyle = {
   ':hover': {
     backgroundColor: colorScheme.default!.backgroundActive1,
     color: colorScheme.default!.foregroundFocus1,
-    [`& .${Icon.className}`]: {
+    [`& .icon`]: {
       color: colorScheme.default!.foregroundFocus1,
     },
     [`& .${List.Item.slotClassNames.contentWrapper}`]: {
