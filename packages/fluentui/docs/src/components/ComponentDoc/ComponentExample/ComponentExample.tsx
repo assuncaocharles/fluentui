@@ -138,7 +138,7 @@ class ComponentExample extends React.Component<ComponentExampleProps, ComponentE
 
     // deactivate examples when switching from one to the next
     if (!isActiveHash && state.prevHash !== nextHash) {
-      Object.assign(nextState, ComponentExample.getClearedActiveState());
+      Object.assign(nextState, ComponentExample.getClearedActiveState(), state);
     }
 
     return nextState;
