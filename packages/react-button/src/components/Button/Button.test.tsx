@@ -1,9 +1,18 @@
 import * as React from 'react';
-import * as path from 'path';
-import { isConformant } from '@fluentui/react-conformance';
-import { Button } from './Button';
+import { Button as BaseButton } from './Button';
 import * as renderer from 'react-test-renderer';
 import { mount, ReactWrapper } from 'enzyme';
+import { isConformant } from '../../common/isConformant';
+import { withThemeProvider } from '@fluentui/react-theme-provider';
+
+/** Use a ThemeProvider wrapper around the component to ensure styles show up in snapshots. */
+const Button = withThemeProvider(BaseButton);
+
+describe('Button (isConformant)', () =>
+  isConformant({
+    Component: BaseButton,
+    displayName: 'Button',
+  }));
 
 describe('Button', () => {
   let wrapper: ReactWrapper | undefined;
@@ -13,13 +22,6 @@ describe('Button', () => {
       wrapper.unmount();
       wrapper = undefined;
     }
-  });
-
-  isConformant({
-    componentPath: path.join(__dirname, 'Button.tsx'),
-    Component: Button,
-    displayName: 'Button',
-    disabledTests: ['has-docblock', 'as-renders-html', 'as-passes-as-value', 'as-renders-react-class', 'as-renders-fc'],
   });
 
   /**

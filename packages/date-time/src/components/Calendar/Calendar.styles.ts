@@ -1,5 +1,5 @@
 import { ICalendarStyleProps, ICalendarStyles } from './Calendar.types';
-import { normalize, FontSizes, getFocusStyle } from '@uifabric/styling';
+import { normalize, FontSizes, getFocusStyle } from '@fluentui/style-utilities';
 
 export const styles = (props: ICalendarStyleProps): ICalendarStyles => {
   const { className, theme, isDayPickerVisible, isMonthPickerVisible, showWeekNumbers } = props;
@@ -48,6 +48,7 @@ export const styles = (props: ICalendarStyleProps): ICalendarStyles => {
         marginRight: 16,
         marginTop: 3,
         fontSize: FontSizes.small,
+        fontFamily: 'inherit',
         overflow: 'visible', // explicitly specify for IE11
         selectors: {
           '& div': {

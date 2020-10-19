@@ -1,5 +1,5 @@
 import { IWeeklyDayPickerStyleProps, IWeeklyDayPickerStyles } from './WeeklyDayPicker.types';
-import { normalize, FontSizes, getFocusStyle, getGlobalClassNames } from '@uifabric/styling';
+import { normalize, FontSizes, getFocusStyle, getGlobalClassNames } from '@fluentui/style-utilities';
 import { IsFocusVisibleClassName } from '@uifabric/utilities';
 
 const GlobalClassNames = {
@@ -48,6 +48,7 @@ export const styles = (props: IWeeklyDayPickerStyleProps): IWeeklyDayPickerStyle
         alignItems: 'center',
         backgroundColor: palette.neutralLighter,
         fontSize: FontSizes.small,
+        fontFamily: 'inherit',
         selectors: {
           [`.${classNames.root}:hover &, .${IsFocusVisibleClassName} .${classNames.root}:focus &, ` +
           `.${IsFocusVisibleClassName} &:focus`]: {

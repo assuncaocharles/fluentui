@@ -167,6 +167,8 @@ const iterateItems = (items: TreeProps['items'] | TreeItemProps['items'], acc = 
  * [Treeview - JAWS doesn't narrate position for each tree item](https://github.com/FreedomScientific/VFO-standards-support/issues/338)
  * [Aria-selected and aria-checked are not output correctly for trees #432](https://github.com/FreedomScientific/VFO-standards-support/issues/432)
  * [Aria compliant trees are read as empty tables](https://bugs.chromium.org/p/chromium/issues/detail?id=1048770)
+ * [VoiceOver narrates "selected false" for DOM with role=option and no aria-selected attribute](http://www.openradar.me/FB8050959)
+ * [VoiceOver does not support Aria 1.2 listbox role owning unselectable group role](http://www.openradar.me/FB8050958)
  */
 export const Tree: ComponentWithAs<'div', TreeProps> &
   FluentComponentStaticProps<TreeProps> & {
@@ -209,6 +211,9 @@ export const Tree: ComponentWithAs<'div', TreeProps> &
   const getA11yProps = useAccessibility(props.accessibility, {
     debugName: Tree.displayName,
     rtl: context.rtl,
+    mapPropsToBehavior: () => ({
+      selectable,
+    }),
   });
 
   const { classes } = useStyles<TreeStylesProps>(Tree.displayName, {
@@ -241,17 +246,11 @@ export const Tree: ComponentWithAs<'div', TreeProps> &
   const setSelectedItemIds = React.useCallback(
     (e: React.SyntheticEvent, updateSelectedItemIds: (currSelectedItemIds: string[]) => string[]) => {
       setSelectedItemIdsState(prevSelectedItemIds => {
-        // This is a hack to make it work with useAutoControlled since it's not keeping track of
-        // the controlled state in the first interaction breaking the expected behavior
-        // Remove this once the useAutoControle is fixed and the prevState will be stable
-        // see https://github.com/microsoft/fluentui/issues/14509
-        const nextSelectedItemIds = updateSelectedItemIds(stableProps.current.selectedItemIds || prevSelectedItemIds);
-
+        const nextSelectedItemIds = updateSelectedItemIds(prevSelectedItemIds);
         _.invoke(stableProps.current, 'onSelectedItemIdsChange', e, {
           ...stableProps.current,
           selectedItemIds: nextSelectedItemIds,
         });
-
         return nextSelectedItemIds;
       });
     },
@@ -261,11 +260,7 @@ export const Tree: ComponentWithAs<'div', TreeProps> &
   const setActiveItemIds = React.useCallback(
     (e: React.SyntheticEvent, updateActiveItemIds: (activeItemIds: string[]) => string[]) => {
       setActiveItemIdsState(prevActiveItemIds => {
-        // This is a hack to make it work with useAutoControlled since it's not keeping track of
-        // the controlled state in the first interaction breaking the expected behavior
-        // Remove this once the useAutoControle is fixed and the prevState will be stable
-        // see https://github.com/microsoft/fluentui/issues/14509
-        const nextActiveItemIds = updateActiveItemIds(stableProps.current.activeItemIds || prevActiveItemIds);
+        const nextActiveItemIds = updateActiveItemIds(prevActiveItemIds);
         _.invoke(stableProps.current, 'onActiveItemIdsChange', e, {
           ...stableProps.current,
           activeItemIds: nextActiveItemIds,
@@ -438,6 +433,7 @@ export const Tree: ComponentWithAs<'div', TreeProps> &
               expanded: isSubtreeExpanded,
               selected: isSelectedItem(item),
               selectable,
+              ...(isSubtree && !item.selectableParent && { selectable: false }),
               renderItemTitle,
               id,
               key: id,

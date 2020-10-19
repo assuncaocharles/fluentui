@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { resolveShorthandProps, mergeProps } from '@fluentui/react-compose/lib/next/index';
+import { resolveShorthandProps, makeMergeProps } from '@fluentui/react-compose/lib/next/index';
 import { SplitButtonProps, SplitButtonState } from './SplitButton.types';
 import { renderSplitButton } from './renderSplitButton';
 import { useMergedRefs } from '@uifabric/react-hooks';
 import { useExpanded } from '../MenuButton/useExpanded';
 
 export const splitButtonShorthandProps = ['icon', 'button', 'divider', 'menuButton'];
+
+const mergeProps = makeMergeProps({ deepMerge: splitButtonShorthandProps });
 
 /**
  * Redefine the component factory, reusing button factory.
@@ -24,9 +26,10 @@ export const useSplitButton = (
     disabled,
     loading,
     circular,
-    fluid,
+    block,
     menu,
     size,
+    transparent,
     ...userProps
   } = resolveShorthandProps(props, splitButtonShorthandProps);
 
@@ -40,8 +43,12 @@ export const useSplitButton = (
       as: 'span',
       className,
       style,
-      fluid,
+      disabled,
+      block,
+      primary,
       size,
+      transparent,
+      'aria-disabled': disabledOrLoading,
 
       button: {
         as: 'span',
@@ -51,8 +58,8 @@ export const useSplitButton = (
         circular,
         disabled: disabledOrLoading,
         loading,
-        fluid,
         size,
+        transparent,
         ...userProps,
       },
 
@@ -65,6 +72,7 @@ export const useSplitButton = (
         size,
         disabled: disabledOrLoading,
         loading,
+        transparent,
         menu: {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ...(menu as any),

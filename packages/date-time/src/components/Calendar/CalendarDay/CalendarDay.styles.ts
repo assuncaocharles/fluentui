@@ -1,5 +1,5 @@
 import { ICalendarDayStyleProps, ICalendarDayStyles } from './CalendarDay.types';
-import { normalize, FontSizes, FontWeights, getFocusStyle, AnimationStyles } from '@uifabric/styling';
+import { normalize, FontSizes, FontWeights, getFocusStyle, AnimationStyles } from '@fluentui/style-utilities';
 
 export const styles = (props: ICalendarDayStyleProps): ICalendarDayStyles => {
   const { className, theme, headerIsClickable, showWeekNumbers } = props;
@@ -40,6 +40,7 @@ export const styles = (props: ICalendarDayStyleProps): ICalendarDayStyles => {
         ...AnimationStyles.fadeIn200,
         alignItems: 'center',
         fontSize: FontSizes.medium,
+        fontFamily: 'inherit',
         color: palette.neutralPrimary,
         display: 'inline-block',
         flexGrow: 1,
@@ -77,6 +78,7 @@ export const styles = (props: ICalendarDayStyleProps): ICalendarDayStyles => {
         textAlign: 'center',
         lineHeight: 28,
         fontSize: FontSizes.small,
+        fontFamily: 'inherit',
         color: palette.neutralPrimary,
         borderRadius: 2,
         position: 'relative',

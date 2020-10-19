@@ -4,20 +4,20 @@
 
 ```ts
 
-import { IIconProps } from 'office-ui-fabric-react/lib/Icon';
-import { IKeytipProps } from 'office-ui-fabric-react/lib/Keytip';
+import { IIconProps } from '@fluentui/react-internal/lib/Icon';
+import { IKeytipProps } from '@fluentui/react-internal/lib/Keytip';
 import { IRefObject } from '@uifabric/utilities';
 import { IRenderFunction } from '@uifabric/utilities';
-import { IStyle } from '@uifabric/styling';
+import { IStyle } from '@fluentui/style-utilities';
 import { IStyleFunctionOrObject } from '@uifabric/utilities';
-import { ITheme } from '@uifabric/styling';
+import { ITheme } from '@fluentui/style-utilities';
 import * as React from 'react';
 
 // @public (undocumented)
-export const Checkbox: React.FunctionComponent<ICheckboxProps & React.RefAttributes<HTMLDivElement>>;
+export const Checkbox: React.FunctionComponent<ICheckboxProps>;
 
 // @public (undocumented)
-export const CheckboxBase: React.ForwardRefExoticComponent<ICheckboxProps & React.RefAttributes<HTMLDivElement>>;
+export const CheckboxBase: React.FunctionComponent<ICheckboxProps>;
 
 // @public
 export interface ICheckbox {
@@ -27,7 +27,7 @@ export interface ICheckbox {
 }
 
 // @public
-export interface ICheckboxProps extends React.ButtonHTMLAttributes<HTMLElement | HTMLInputElement> {
+export interface ICheckboxProps extends React.ButtonHTMLAttributes<HTMLElement | HTMLInputElement>, React.RefAttributes<HTMLDivElement> {
     ariaDescribedBy?: string;
     ariaLabel?: string;
     ariaLabelledBy?: string;

@@ -5,21 +5,21 @@
 ```ts
 
 import { ColorTokenSet } from '@fluentui/theme';
+import { ICustomizerContext } from '@uifabric/utilities';
+import { IFontFace } from '@uifabric/merge-styles';
+import { IKeyframes } from '@uifabric/merge-styles';
 import { IRawFontStyle } from '@uifabric/merge-styles';
 import { IRawStyle } from '@uifabric/merge-styles';
 import { IStyle } from '@uifabric/merge-styles';
 import { IStyleFunctionOrObject } from '@uifabric/merge-styles';
-import { ITheme } from '@fluentui/theme';
 import { PartialTheme } from '@fluentui/theme';
 import * as React from 'react';
 import { Theme } from '@fluentui/theme';
 import { TokenSetType } from '@fluentui/theme';
-
-// @public
-export const createDefaultTheme: () => Theme;
+import { Variants } from '@fluentui/theme';
 
 // @public (undocumented)
-export const FluentTheme: Theme;
+export type FontFace = IFontFace;
 
 // @public (undocumented)
 export const getStyleFromPropsAndOptions: <TProps extends StyleProps<import("@fluentui/theme").ColorTokenSet>, TOptions extends StyleOptions<TProps>>(props: TProps, options: TOptions, prefix?: string | undefined) => React.CSSProperties;
@@ -32,15 +32,37 @@ export { IStyle }
 
 export { IStyleFunctionOrObject }
 
+// @public (undocumented)
+export type KeyFrames = IKeyframes;
+
 // @public
-export const makeClasses: <TState extends {}>(styleOrFunction: Record<string, IStyle> | ((theme: ITheme) => Record<string, IStyle>)) => (state: TState) => void;
+export const makeClasses: <TState extends {}>(styleOrFunction: Record<string, IStyle> | ((theme: Theme) => Record<string, IStyle>)) => (state: TState, theme?: Theme | undefined, renderer?: StyleRenderer | undefined) => void;
 
 // @public
 export function makeStyles<TStyleSet extends {
     [key: string]: IStyle;
-}>(styleOrFunction: TStyleSet | ((theme: ITheme) => TStyleSet)): () => {
+}>(styleOrFunction: TStyleSet | ((theme: Theme) => TStyleSet)): (theme?: Theme, renderer?: StyleRenderer) => {
     [key in keyof TStyleSet]: string;
 };
+
+// @public
+export const makeVariantClasses: <TState = {}>(options: MakeVariantClassesOptions) => (state: TState, theme?: Theme | undefined, renderer?: import(".").StyleRenderer | undefined) => void;
+
+// @public
+export type MakeVariantClassesOptions = {
+    name?: string;
+    prefix?: string;
+    styles?: Record<string, IStyle> | ((theme: Theme) => Record<string, IStyle>);
+    variants?: Variants | ((theme: Theme) => Variants);
+};
+
+// @public (undocumented)
+export const MergeStylesProvider: ({ children }: {
+    children?: React.ReactNode;
+}) => JSX.Element;
+
+// @public (undocumented)
+export const mergeStylesRenderer: StyleRenderer;
 
 export { PartialTheme }
 
@@ -59,7 +81,24 @@ export interface StyleProps<TTokens extends ColorTokenSet = ColorTokenSet> {
 }
 
 // @public (undocumented)
-export const TeamsTheme: PartialTheme;
+export interface StyleRenderer {
+    getId: () => number;
+    renderFontFace: (fontFace: FontFace, options: StyleRendererOptions) => void;
+    renderKeyframes: (keyframes: KeyFrames, options: StyleRendererOptions) => string;
+    renderStyles: <TRuleSet>(ruleSet: TRuleSet, options: StyleRendererOptions) => {
+        [key in keyof TRuleSet]: string;
+    };
+    reset: () => void;
+}
+
+// @public (undocumented)
+export const StyleRendererContext: React.Context<StyleRenderer>;
+
+// @public (undocumented)
+export type StyleRendererOptions = {
+    rtl?: boolean;
+    targetWindow: Window | undefined;
+};
 
 export { Theme }
 
@@ -67,15 +106,26 @@ export { Theme }
 export const ThemeContext: React.Context<Theme | undefined>;
 
 // @public
-export const ThemeProvider: React.ForwardRefExoticComponent<ThemeProviderProps & React.RefAttributes<HTMLDivElement>>;
+export const ThemeProvider: React.FunctionComponent<ThemeProviderProps>;
 
 // @public
 export interface ThemeProviderProps extends React.HTMLAttributes<HTMLDivElement> {
+    applyTo?: 'element' | 'body' | 'none';
+    as?: React.ElementType;
+    ref?: React.Ref<HTMLElement>;
+    renderer?: StyleRenderer;
     theme?: PartialTheme | Theme;
 }
 
+// @public
+export type ThemeProviderState = Omit<ThemeProviderProps, 'theme' | 'ref'> & {
+    theme: Theme;
+    ref: React.RefObject<HTMLElement>;
+    customizerContext: ICustomizerContext;
+};
+
 // @public (undocumented)
-export const tokensToStyleObject: (tokens?: TokenSetType | undefined, prefix?: string | undefined, style?: React.CSSProperties | undefined) => React.CSSProperties;
+export const tokensToStyleObject: (tokens?: React.CSSProperties | TokenSetType | undefined, prefix?: string | undefined, style?: React.CSSProperties | undefined) => React.CSSProperties;
 
 // @public
 export const useInlineTokens: (draftState: {
@@ -83,8 +133,26 @@ export const useInlineTokens: (draftState: {
     tokens?: TokenSetType | undefined;
 }, prefix: string) => void;
 
+// @public (undocumented)
+export const useStyleRenderer: () => StyleRenderer;
+
 // @public
 export const useTheme: () => Theme;
+
+// @public
+export const useThemeProvider: (props: ThemeProviderProps, ref: React.Ref<HTMLElement>, defaultProps: ThemeProviderProps) => {
+    state: ThemeProviderState;
+    render: (state: ThemeProviderState) => JSX.Element;
+};
+
+// @public (undocumented)
+export function useThemeProviderClasses(state: ThemeProviderState): void;
+
+// @public (undocumented)
+export const useThemeProviderState: (draftState: ThemeProviderState) => void;
+
+// @public (undocumented)
+export const withThemeProvider: <TProps>(Component: React.FunctionComponent<TProps>) => React.ForwardRefExoticComponent<React.PropsWithoutRef<TProps> & React.RefAttributes<HTMLButtonElement>>;
 
 
 // (No @packageDocumentation comment for this package)

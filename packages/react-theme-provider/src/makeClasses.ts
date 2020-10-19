@@ -1,6 +1,7 @@
 import { IStyle } from '@uifabric/merge-styles';
-import { ITheme } from '@fluentui/theme';
+import { Theme } from '@fluentui/theme';
 import { makeStyles } from './makeStyles';
+import { StyleRenderer } from './styleRenderers/types';
 
 /**
  * The `makeClasses` helper encapsulates `makeStyles`, and given a style map which follows
@@ -33,12 +34,12 @@ import { makeStyles } from './makeStyles';
  * the "_size_small" enum class will be appended to the root className prop.
  */
 export const makeClasses = <TState extends {}>(
-  styleOrFunction: Record<string, IStyle> | ((theme: ITheme) => Record<string, IStyle>),
+  styleOrFunction: Record<string, IStyle> | ((theme: Theme) => Record<string, IStyle>),
 ) => {
   const useStyles = makeStyles(styleOrFunction);
 
-  return (state: TState) => {
-    const classes = useStyles();
+  return (state: TState, theme?: Theme, renderer?: StyleRenderer) => {
+    const classes = useStyles(theme, renderer);
     const slotNames = Object.keys(classes);
 
     for (const slotName of slotNames) {
@@ -59,15 +60,20 @@ export const makeClasses = <TState extends {}>(
             break;
 
           case 2:
+            const modifierName = parts[1];
+
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            if ((state as any)[parts[1]]) {
+            if ((state as any)[modifierName] || (state as any).variant === modifierName) {
               _setClass(state, value);
             }
             break;
 
           case 3:
+            const enumName = parts[1];
+            const enumValue = parts[2];
+
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            if ((state as any)[parts[1]] === parts[2]) {
+            if ((state as any)[enumName] === enumValue) {
               _setClass(state, value);
             }
             break;
