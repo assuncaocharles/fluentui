@@ -40,7 +40,7 @@ export interface AccordionSlotClassNames {
 }
 
 export interface AccordionProps extends UIComponentProps, ChildrenComponentProps {
-  /** Index of the currently active panel. */
+  /**  foo Index of the currently active panel. */
   activeIndex?: number[] | number;
 
   /** Initial activeIndex value. */
